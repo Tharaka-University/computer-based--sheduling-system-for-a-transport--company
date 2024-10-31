@@ -5,8 +5,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Transport Scheduling System</title>
    <style>
-       /* General Styling */
-       * {
+       {
            margin: 0;
            padding: 0;
            box-sizing: border-box;
@@ -78,8 +77,6 @@
        #scheduledTripsHeader {
            display: none; /* Hidden until trips are added */
        }
-
-       /* Delete Button Styling */
        .delete-button {
            position: absolute;
            top: 10px;
@@ -148,7 +145,6 @@
             const destination = document.getElementById("destination").value;
             const scheduleList = document.getElementById("scheduleList");
 
-            // Input validation
             if (!vehicle || !driver || !startTime || !endTime || !destination) {
                 alert("Please fill in all fields.");
                 return;
@@ -158,8 +154,6 @@
                 alert("End time must be later than start time.");
                 return;
             }
-
-            // Create list item to display the scheduled trip
             const tripItem = document.createElement("li");
             const tripId = Date.now();
             tripItem.setAttribute("data-id", tripId);
@@ -171,30 +165,22 @@
                 <strong>Destination:</strong> ${destination}
                 <button class="delete-button" onclick="deleteTrip(${tripId})">X</button>
             `;
-
-            // Add the trip to the schedule list and save to localStorage
             scheduleList.appendChild(tripItem);
             saveTrip({ vehicle, driver, startTime, endTime, destination, id: tripId });
             document.getElementById("scheduleForm").reset();
             toggleScheduledTripsHeader();
         }
-
-        // Function to delete a trip
         function deleteTrip(tripId) {
             const tripItem = document.querySelector(`li[data-id='${tripId}']`);
             tripItem.remove();
             removeTripFromStorage(tripId);
             toggleScheduledTripsHeader();
         }
-
-        // Save trip to localStorage
         function saveTrip(trip) {
             let trips = JSON.parse(localStorage.getItem("trips")) || [];
             trips.push(trip);
             localStorage.setItem("trips", JSON.stringify(trips));
         }
-
-        // Load trips from localStorage
         function loadTrips() {
             const trips = JSON.parse(localStorage.getItem("trips")) || [];
             trips.forEach(trip => {
@@ -212,15 +198,11 @@
             });
             toggleScheduledTripsHeader();
         }
-
-        // Remove trip from localStorage
         function removeTripFromStorage(tripId) {
             let trips = JSON.parse(localStorage.getItem("trips")) || [];
             trips = trips.filter(trip => trip.id !== tripId);
             localStorage.setItem("trips", JSON.stringify(trips));
         }
-
-        // Toggle the visibility of the scheduled trips header
         function toggleScheduledTripsHeader() {
             const header = document.getElementById("scheduledTripsHeader");
             const scheduleList = document.getElementById("scheduleList");
