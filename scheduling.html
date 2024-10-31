@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Transport Scheduling System</title>
+   <style>
+       /* General Styling */
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f4f4f9;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+       }
+
+       .container {
+           background-color: #ffffff;
+           padding: 20px;
+           border-radius: 8px;
+           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+           width: 300px;
+       }
+
+       h1, h2 {
+           color: #333;
+           text-align: center;
+           margin-bottom: 20px;
+       }
+
+       label {
+           display: block;
+           margin-top: 10px;
+           color: #333;
+       }
+
+       input, select, button {
+           width: 100%;
+           padding: 8px;
+           margin-top: 5px;
+           border-radius: 4px;
+           border: 1px solid #ccc;
+       }
+
+       button {
+           background-color: #4CAF50;
+           color: white;
+           border: none;
+           cursor: pointer;
+           font-size: 16px;
+       }
+
+       button:hover {
+           background-color: #45a049;
+       }
+
+       #scheduleList {
+           list-style-type: none;
+           padding: 0;
+           margin-top: 20px;
+       }
+
+       #scheduleList li {
+           background-color: #f0f0f0;
+           padding: 10px;
+           border-radius: 4px;
+           margin-bottom: 10px;
+           position: relative;
+       }
+
+       #scheduledTripsHeader {
+           display: none; /* Hidden until trips are added */
+       }
+
+       /* Delete Button Styling */
+       .delete-button {
+           position: absolute;
+           top: 10px;
+           right: 10px;
+           background-color: #ff4d4d;
+           border: none;
+           color: white;
+           border-radius: 50%;
+           width: 20px;
+           height: 20px;
+           cursor: pointer;
+           font-size: 12px;
+       }
+
+       .delete-button:hover {
+           background-color: #ff3333;
+       }
+   </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Transport Scheduling System</h1>
+        
+        <!-- Schedule Form -->
+        <form id="scheduleForm">
+            <h2>Schedule a Trip</h2>
+            <label for="vehicle">Vehicle:</label>
+            <select id="vehicle" required>
+                <option value="">Select a vehicle</option>
+                <option value="vehicle1">Vehicle 1</option>
+                <option value="vehicle2">Vehicle 2</option>
+            </select>
+            
+            <label for="driver">Driver:</label>
+            <select id="driver" required>
+                <option value="">Select a driver</option>
+                <option value="Alice">Alice</option>
+                <option value="Bob">Bob</option>
+            </select>
+            
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime" required>
+            
+            <label for="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime" required>
+            
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" placeholder="Enter destination" required>
+            
+            <button type="button" onclick="scheduleTrip()">Schedule Trip</button>
+        </form>
+        
+        <!-- Scheduled Trips List -->
+        <h2 id="scheduledTripsHeader">Scheduled Trips</h2>
+        <ul id="scheduleList"></ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", loadTrips);
+
+        function scheduleTrip() {
+            const vehicle = document.getElementById("vehicle").value;
+            const driver = document.getElementById("driver").value;
+            const startTime = document.getElementById("startTime").value;
+            const endTime = document.getElementById("endTime").value;
+            const destination = document.getElementById("destination").value;
+            const scheduleList = document.getElementById("scheduleList");
+
+            // Input validation
+            if (!vehicle || !driver || !startTime || !endTime || !destination) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            if (new Date(endTime) <= new Date(startTime)) {
+                alert("End time must be later than start time.");
+                return;
+            }
+
+            // Create list item to display the scheduled trip
+            const tripItem = document.createElement("li");
+            const tripId = Date.now();
+            tripItem.setAttribute("data-id", tripId);
+            tripItem.innerHTML = `
+                <strong>Vehicle:</strong> ${vehicle}<br>
+                <strong>Driver:</strong> ${driver}<br>
+                <strong>Start Time:</strong> ${startTime}<br>
+                <strong>End Time:</strong> ${endTime}<br>
+                <strong>Destination:</strong> ${destination}
+                <button class="delete-button" onclick="deleteTrip(${tripId})">X</button>
+            `;
+
+            // Add the trip to the schedule list and save to localStorage
+            scheduleList.appendChild(tripItem);
+            saveTrip({ vehicle, driver, startTime, endTime, destination, id: tripId });
+            document.getElementById("scheduleForm").reset();
+            toggleScheduledTripsHeader();
+        }
+
+        // Function to delete a trip
+        function deleteTrip(tripId) {
+            const tripItem = document.querySelector(`li[data-id='${tripId}']`);
+            tripItem.remove();
+            removeTripFromStorage(tripId);
+            toggleScheduledTripsHeader();
+        }
+
+        // Save trip to localStorage
+        function saveTrip(trip) {
+            let trips = JSON.parse(localStorage.getItem("trips")) || [];
+            trips.push(trip);
+            localStorage.setItem("trips", JSON.stringify(trips));
+        }
+
+        // Load trips from localStorage
+        function loadTrips() {
+            const trips = JSON.parse(localStorage.getItem("trips")) || [];
+            trips.forEach(trip => {
+                const tripItem = document.createElement("li");
+                tripItem.setAttribute("data-id", trip.id);
+                tripItem.innerHTML = `
+                    <strong>Vehicle:</strong> ${trip.vehicle}<br>
+                    <strong>Driver:</strong> ${trip.driver}<br>
+                    <strong>Start Time:</strong> ${trip.startTime}<br>
+                    <strong>End Time:</strong> ${trip.endTime}<br>
+                    <strong>Destination:</strong> ${trip.destination}
+                    <button class="delete-button" onclick="deleteTrip(${trip.id})">X</button>
+                `;
+                document.getElementById("scheduleList").appendChild(tripItem);
+            });
+            toggleScheduledTripsHeader();
+        }
+
+        // Remove trip from localStorage
+        function removeTripFromStorage(tripId) {
+            let trips = JSON.parse(localStorage.getItem("trips")) || [];
+            trips = trips.filter(trip => trip.id !== tripId);
+            localStorage.setItem("trips", JSON.stringify(trips));
+        }
+
+        // Toggle the visibility of the scheduled trips header
+        function toggleScheduledTripsHeader() {
+            const header = document.getElementById("scheduledTripsHeader");
+            const scheduleList = document.getElementById("scheduleList");
+            header.style.display = scheduleList.children.length > 0 ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
