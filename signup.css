@@ -1,0 +1,50 @@
+body{
+	background-color: #185786;
+}
+
+.title{
+	background-image: url(wallpaperr.jfif);
+	background-repeat: no-repeat;
+	background-size: 1400px 900px;
+	height: 600px;
+	margin-top: -50px;
+}
+
+.h1{
+	text-align: center;
+	font-size: 70px;
+	font-weight: 900;
+	color: white;
+	margin-top: -400px;
+  
+}
+
+
+.info{
+	background-color: #1E6CA8;
+	width: 700px;
+	height: 250px;
+	margin-left: 300px;
+	margin-top: -10px;	
+}
+
+.form{
+	margin-bottom: 15px;
+}
+
+h2{
+	text-align: center;
+}
+
+form{
+	width: 300px;
+	height: 130px;
+	padding-left: 100px;
+}
+
+fieldset{
+	width: 400px;
+	border-radius: 15px;
+	margin-left: 100px;
+	margin-top: 10px;
+}

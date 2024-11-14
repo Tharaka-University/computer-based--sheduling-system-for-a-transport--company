@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Schedules</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Available Vehicle Schedules</h2>
+    <table>
+        <tr>
+            <th>Vehicle</th>
+            <th>Route</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Available Slots</th>
+            <th>Action</th>
+        </tr>
+        <!-- Example Schedule 1 -->
+        <tr>
+            <td>Truck 1 (Reg No: ABC123)</td>
+            <td>City A to City B</td>
+            <td>10:00 AM</td>
+            <td>3:00 PM</td>
+            <td>5 Slots</td>
+            <td><a href="book.html?schedule_id=1">Book Now</a></td>
+        </tr>
+        <!-- Example Schedule 2 -->
+        <tr>
+            <td>Van 2 (Reg No: XYZ789)</td>
+            <td>City C to City D</td>
+            <td>1:00 PM</td>
+            <td>6:00 PM</td>
+            <td>2 Slots</td>
+            <td><a href="book.html?schedule_id=2">Book Now</a></td>
+        </tr>
+    </table>
+</body>
+</html>

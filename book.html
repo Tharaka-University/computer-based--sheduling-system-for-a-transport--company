@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Your Goods for Delivery</title>
+</head>
+<body>
+    <h2>Book Your Goods for Delivery</h2>
+    <form action="process_booking.php" method="post">
+        <!-- Hidden field to store the schedule ID (you will get this from the link) -->
+        <input type="hidden" name="schedule_id" value="1"> <!-- Adjust this dynamically -->
+
+        <label for="goods_description">Goods Description:</label>
+        <input type="text" id="goods_description" name="goods_description" required><br><br>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" required><br><br>
+
+        <label for="pickup_location">Pickup Location:</label>
+        <input type="text" id="pickup_location" name="pickup_location" required><br><br>
+
+        <label for="dropoff_location">Drop-off Location:</label>
+        <input type="text" id="dropoff_location" name="dropoff_location" required><br><br>
+
+        <label for="preferred_date">Preferred Date:</label>
+        <input type="date" id="preferred_date" name="preferred_date" required><br><br>
+
+        <input type="submit" value="Confirm Booking">
+    </form>
+</body>
+</html>

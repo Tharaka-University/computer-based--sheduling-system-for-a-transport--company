@@ -1,0 +1,60 @@
+body{
+	background-color: #185786;
+}
+
+.title{
+	background-image: url(wallpaperr.jfif);
+	background-repeat: no-repeat;
+	background-size: 1400px 900px;
+	height: 600px;
+	margin-top: -50px;
+}
+
+.h1{
+	text-align: center;
+	font-size: 70px;
+	font-weight: 900;
+	color: white;
+	margin-top: -400px;
+  
+}
+
+.info{
+	background-color: #1E6CA8;
+	width: 900px;
+	height: 250px;
+	margin-left: 200px;
+	margin-top: -10px;
+
+	
+
+}
+
+
+h2{
+ color: white;
+ text-decoration: underline;
+ text-align: center;
+}
+p{
+	
+	padding-left: 20px;
+	color: white;
+	font-size: 20px;
+}
+
+a{
+	margin-left: 400px;
+	justify-content: center;
+	color: white;
+	font-size: 20px;
+}
+
+button{
+	height: 40px;
+	width: 150px;
+	border: 2px solid #185786;
+	border-radius: 10px;
+	background-color: #185786;
+	margin-left: -400px;
+}
